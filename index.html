@@ -987,7 +987,7 @@ footer a{color:var(--ink2)}
   <div class="chips" id="mapChips"></div>
   <div style="position:relative"><div id="map"></div><div class="mapwarn" id="mapwarn"><div><b>🗺️ Bản đồ chưa tải được</b>Khung xem trước (trong app chat / trình xem file) chặn tải bản đồ & ảnh từ internet. Hãy tải file về rồi mở bằng <b>Chrome, Edge hoặc Safari</b>, hoặc mở link host. Ghim, tuyến metro và các nút Amap vẫn dùng được.</div></div></div>
   <div class="legend"><span><i style="border-color:#009EDB"></i>Metro (đúng màu tuyến, vẽ theo đường ray thật)</span><span><i style="border-top-style:dotted;border-color:#64748b"></i>Đi bộ ga ↔ điểm đến</span><span><i style="border-top-style:dashed;border-color:#0d9488"></i>Bus</span><span><i style="border-top-style:dashed;border-color:#0a73ff"></i>HelloBike</span><span><i style="border-top-style:dashed;border-color:#1e3a8a"></i>Tàu cao tốc</span><span><i style="border-top-style:dashed;border-color:#ff7a1a"></i>DiDi (chỉ chặng sân bay đêm/sáng sớm)</span><span><span class="stm" style="border-color:#009EDB;display:inline-block"></span>Ga metro – bấm để mở trên Amap</span></div>
-  <div class="maphint">Góc phải bản đồ: đổi nền <b>Amap tiếng Trung / tiếng Anh / vệ tinh</b>. Nút 📍 hiện vị trí của bạn (khi đang ở Trung Quốc). Bản đồ tải trực tiếp từ máy chủ Amap nên cần mở file bằng <b>Chrome / Safari / Edge có mạng</b>.</div>
+  <div class="maphint">Góc phải bản đồ: đổi nền <b>Amap tiếng Anh (mặc định) / tiếng Trung / vệ tinh</b>. Nút 📍 hiện vị trí của bạn (khi đang ở Trung Quốc). Bản đồ tải trực tiếp từ máy chủ Amap nên cần mở file bằng <b>Chrome / Safari / Edge có mạng</b>.</div>
 </section>
 
 <!-- DAYS -->
@@ -1434,9 +1434,9 @@ const sub=["1","2","3","4"];
 const amapZh=L.tileLayer("https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",{subdomains:sub,maxZoom:18,attribution:"© 高德地图 AutoNavi"});
 const amapEn=L.tileLayer("https://webrd0{s}.is.autonavi.com/appmaptile?lang=en&size=1&scale=1&style=8&x={x}&y={y}&z={z}",{subdomains:sub,maxZoom:18,attribution:"© 高德地图 AutoNavi"});
 const amapSat=L.layerGroup([L.tileLayer("https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",{subdomains:sub,maxZoom:18,attribution:"© 高德地图 AutoNavi"}),L.tileLayer("https://webst0{s}.is.autonavi.com/appmaptile?style=8&x={x}&y={y}&z={z}",{subdomains:sub,maxZoom:18})]);
-amapZh.addTo(map);
+amapEn.addTo(map);
 (function(){let ok=0,bad=0;[amapZh,amapEn].forEach(t=>{t.on("tileload",()=>{ok++;$("#mapwarn").classList.remove("on")});t.on("tileerror",()=>{bad++;if(bad>=6&&ok===0)$("#mapwarn").classList.add("on")})})})();
-L.control.layers({"Amap 中文":amapZh,"Amap English":amapEn,"Vệ tinh":amapSat},null,{position:"topright"}).addTo(map);
+L.control.layers({"Amap English":amapEn,"Amap 中文":amapZh,"Vệ tinh":amapSat},null,{position:"topright"}).addTo(map);
 
 const Loc=L.Control.extend({options:{position:"topleft"},onAdd(){const b=L.DomUtil.create("a","leaflet-bar");b.href="#";b.title="Vị trí của tôi";b.innerHTML="📍";b.style.cssText="width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:#fff;font-size:17px;text-decoration:none";
  L.DomEvent.on(b,"click",e=>{L.DomEvent.preventDefault(e);if(!navigator.geolocation){toast("Trình duyệt không hỗ trợ định vị");return}
