@@ -779,6 +779,11 @@ pre.msg{white-space:pre-wrap;background:#f8fafc;border:1px dashed #cbd5e1;border
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{display:inline-block;width:26px;height:0;border-top:4px solid}
 .stchip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;background:#eef6ff;border:1px solid #bfdbfe;color:#1e3a8a;border-radius:10px;padding:6px 10px;margin:0 6px 10px 0;text-decoration:none}
+.leg .est{margin-left:auto;flex:0 0 auto;font-size:11.5px;font-weight:700;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.legs .lt{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.legs .lt em{font-style:normal;color:var(--ink);text-transform:none;letter-spacing:0;font-size:12.5px}
+.daysum{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 0}
+.daysum span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700}
 .leg small.zh{color:var(--mute);font-size:12px;margin-left:4px}
 /* DAYS */
 .daytabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:thin;position:sticky;top:56px;z-index:500;background:var(--bg)}
@@ -992,7 +997,7 @@ footer a{color:var(--ink2)}
 
 <!-- DAYS -->
 <section id="days">
-  <div class="sh"><div><div class="k">7 ngày · 6 đêm</div><h2>Lịch trình chi tiết</h2><p>Mỗi điểm có giờ, cách đi từng chặng (màu đúng màu tuyến metro), quán ăn gần đó, mẹo và nút mở Amap/chỉ đường từ điểm trước.</p></div></div>
+  <div class="sh"><div><div class="k">7 ngày · 6 đêm</div><h2>Lịch trình chi tiết</h2><p>Mỗi điểm có giờ, cách đi từng chặng (màu đúng màu tuyến metro) kèm <b>ước tính số phút & km</b>, quán ăn gần đó, mẹo và nút mở Amap/chỉ đường từ điểm trước. Thời gian metro đã tính cả chờ tàu; đi bộ tính theo tốc độ thong thả, chưa gồm thời gian dạo/chụp ảnh.</p></div></div>
   <div class="daytabs" id="dayTabs"></div>
   <div id="dayBody"></div>
 </section>
@@ -1035,6 +1040,16 @@ footer a{color:var(--ink2)}
       <li>Tải bản đồ offline Thượng Hải & Hàng Châu.</li>
       <li>Nút “🚇 Chỉ đường” trong trang này mở Amap với điểm đi/đến sẵn; nếu lệch thì dùng “Tìm trên Amap” (tìm theo tên).</li>
       <li>Google Maps ở Trung Quốc hay lệch vị trí ~500 m.</li></ol>
+    </div></div>
+    <div class="card gc"><div class="gico" style="background:#eef7ee">📥</div><div class="in">
+      <h3>Tải bản đồ offline trên Amap</h3>
+      <p style="margin:0 0 6px;font-size:13.5px;color:var(--mute)">Tải sẵn ở nhà bằng Wi-Fi để lúc mất mạng/eSIM trục trặc vẫn xem được bản đồ, tìm điểm và thấy vị trí của mình.</p>
+      <ol><li>Mở Amap → gõ <b class="zh">离线地图</b> vào ô tìm kiếm (hoặc <b>我的</b> → ⚙️ <b>设置</b> → <b class="zh">离线地图</b> / Offline Maps).</li>
+      <li>Tab <b class="zh">城市列表</b> (danh sách thành phố) → tìm <b class="zh">上海</b> → bấm <b class="zh">下载</b>.</li>
+      <li>Tìm <b class="zh">杭州</b> (nằm trong tỉnh <b class="zh">浙江</b>) → <b class="zh">下载</b>.</li>
+      <li>Xem tiến độ ở tab <b class="zh">下载管理</b>; xong hiện <b class="zh">已下载</b>. Làm trên cả 2 điện thoại.</li>
+      <li>Vài ngày trước khi bay mở lại, nếu có nút <b class="zh">更新</b> thì bấm cập nhật.</li></ol>
+      <p style="margin:6px 0 0;font-size:13px;color:var(--mute)">Offline dùng để xem bản đồ & định vị; chỉ đường metro/bus theo thời gian thực vẫn cần mạng.</p>
     </div></div>
     <div class="card gc"><div class="gico" style="background:#fdeaea">🧳</div><div class="in">
       <h3>Lưu ý quan trọng</h3>
@@ -1218,7 +1233,7 @@ const DAYS = [
    stops:[
     { t:"06:45 – 07:45", p:"hongqiao", img:"hongqiao", from:"hotel",
       d:"Metro ra ga Hồng Kiều, qua an ninh, quét hộ chiếu qua cổng. Mua bánh mì, Luckin/Starbucks ăn sáng trên tàu.",
-      legs:[{m:"walk",t:"~4 phút"},{m:"metro",r:"8|陆家浜路|老西门"},{m:"metro",r:"10|老西门|虹桥火车站",x:"~40 phút, đi theo biển 火车站 Railway Station"}],
+      legs:[{m:"walk",t:"~4 phút"},{m:"metro",r:"8|陆家浜路|老西门"},{m:"metro",r:"10|老西门|虹桥火车站",x:"đi theo biển 火车站 Railway Station"}],
       tips:["Có mặt trước giờ tàu ≥40 phút.","Xem bảng điện tử tìm số cửa soát vé (检票口) của chuyến mình."] },
     { t:"07:45 – 08:45", p:"hzeast", img:"hzeast", from:"hongqiao",
       d:"Tàu cao tốc G Hồng Kiều → Hàng Châu Đông, ~45–60 phút.",
@@ -1226,7 +1241,7 @@ const DAYS = [
       tips:["Vé mở bán 15 ngày trước (tính cả ngày đi) → canh 11/12. Ở Alipay nhớ chuyển thẻ metro sang Hangzhou."] },
     { t:"10:00 – 12:15", p:"lingyin", img:"lingyin", from:"hzeast",
       d:"Chùa cổ hơn 1.600 năm giữa rừng, tượng Phật khắc trên vách Phi Lai Phong. Thỉnh vòng tay Thập Bát Tử ở quầy chính thức trong chùa.",
-      legs:[{m:"metro",hz:true,r:"1|火车东站|龙翔桥",x:"~25 phút"},{m:"bus",t:"Bus 7 (hoặc xe shuttle Linh Ẩn) từ khu Longxiangqiao → trạm Lingyin (灵隐) · ~30 phút"},{m:"walk",t:"~6 phút tới cổng"}],
+      legs:[{m:"metro",hz:true,r:"1|火车东站|龙翔桥",},{m:"bus",t:"Bus 7 (hoặc xe shuttle Linh Ẩn) từ khu Longxiangqiao → trạm Lingyin (灵隐) · ~30 phút"},{m:"walk",t:"~6 phút tới cổng"}],
       food:["Mì chay Shi Fang Yuan 十方苑素面 trong khuôn viên chùa"],
       tips:["Từ 1/12/2025 khu Linh Ẩn – Phi Lai Phong miễn vé, nhưng phải đặt chỗ theo tên (hộ chiếu) qua mini-app 杭州灵隐飞来峰 trên Alipay/WeChat, trước ít nhất 1 ngày, chọn buổi sáng.","Mang hộ chiếu gốc để quét vào cổng."] },
     { t:"12:30 – 16:00", p:"beishan", img:"beishan", from:"lingyin",
@@ -1244,7 +1259,7 @@ const DAYS = [
       food:["Bánh hành cuộn 葱包桧","Bánh Định Thắng 定胜糕","Trà Long Tỉnh 龙井茶"], tips:["Đi 1–1.5 tiếng là đủ, canh rời phố trước 19:15."] },
     { t:"19:15 – 21:30", p:"hzeast", img:"hzmetro", from:"hefang",
       d:"Về ga Hàng Châu Đông bằng metro (không đổi tuyến), lên tàu ~20:15 về Hồng Kiều, rồi metro về khách sạn.",
-      legs:[{m:"walk",t:"~8 phút tới ga Ding'an Road"},{m:"metro",hz:true,r:"1|定安路|火车东站",x:"~25 phút, không đổi tuyến"},{m:"hsr",t:"Tàu G ~20:15 → Hồng Kiều"}],
+      legs:[{m:"walk",t:"~8 phút tới ga Ding'an Road"},{m:"metro",hz:true,r:"1|定安路|火车东站",x:"không đổi tuyến"},{m:"hsr",t:"Tàu G ~20:15 → Hồng Kiều"}],
       tips:["Về tới Hồng Kiều: Line 10 → Laoximen → Line 8 → Lujiabang Rd (Line 10 chạy tới ~22:30–23:00)."] },
     { t:"~22:00", p:"hotel", img:null, from:"hongqiao",
       d:"Metro từ Hồng Kiều về khách sạn.",
@@ -1484,11 +1499,33 @@ $("#mapChips").onclick=e=>{const c=e.target.closest(".chip");if(c)showMap(c.data
 showMap("all");
 
 /* ===== DAYS ===== */
-function legHTML(l){let badge,txt=esc(l.t||"");
+/* ===== ước tính km & phút ===== */
+function hav(a,b){const R=6371,t=x=>x*Math.PI/180;const dLa=t(b[0]-a[0]),dLo=t(b[1]-a[1]);const h=Math.sin(dLa/2)**2+Math.cos(t(a[0]))*Math.cos(t(b[0]))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
+function plen(pts){let d=0;for(let i=1;i<pts.length;i++)d+=hav(pts[i-1],pts[i]);return d}
+function estMode(m,d){ // d = km đường chim bay
+ if(m==="walk"){const km=d*1.3;return{km,min:km/4.5*60}}
+ if(m==="bike"){const km=d*1.25;return{km,min:km/12*60}}
+ if(m==="bus"){const km=d*1.35;return{km,min:km/18*60+5}}
+ if(m==="didi"){const km=d*1.35;return{km,min:km/(km>15?45:25)*60}}
+ if(m==="hsr"){if(d<5)return null;const km=d*1.1;return{km,min:50,fixed:true}}
+ return null}
+function estimateStop(s){const out=(s.legs||[]).map(()=>null),extra=[];if(!s.from)return{out,extra,km:0,min:0};
+ let ptr=P[s.from].c,pend=[];
+ const flush=(to)=>{const d=hav(ptr,to);if(d<0.05){pend=[];return}
+  if(!pend.length){const e=estMode("walk",d);extra.push(e);pend=[];return}
+  let idx=pend.find(i=>s.legs[i].m!=="walk");if(idx===undefined)idx=pend[0];
+  const e=estMode(s.legs[idx].m,d);if(e)out[idx]=e;pend=[]};
+ s.legs.forEach((l,i)=>{if(l.m==="metro"&&ML[l.r]){const pts=ML[l.r][1];flush(pts[0]);const km=plen(pts);out[i]={km,min:ML[l.r][0]*2.3+2};ptr=pts[pts.length-1]}else pend.push(i)});
+ flush(P[s.p].c);
+ const all=out.filter(Boolean).concat(extra);return{out,extra,km:all.reduce((a,e)=>a+e.km,0),min:all.reduce((a,e)=>a+e.min,0)}}
+const fmtKm=k=>k<1?Math.round(k*10)*100+" m":k.toFixed(k<10?1:0).replace(".",",")+" km";
+const fmtMin=m=>{m=Math.max(1,Math.round(m));return m>=60?Math.floor(m/60)+"h"+String(m%60).padStart(2,"0"):m+" phút"};
+const estChip=e=>e?`<span class="est">≈ ${fmtMin(e.min)} · ${fmtKm(e.km)}</span>`:"";
+function legHTML(l,e){let badge,txt=esc(l.t||"");
  if(l.m==="metro"){const [ln,a,b]=l.r.split("|");const c=(l.hz?LINE.hz:LINE.sh)[ln]||"#333";badge=`<span class="mi" style="background:${c}">${l.hz?"HZ ":"M"}${ln}</span>`;
    const n=ML[l.r]?ML[l.r][0]:"";txt=`<b>${esc(STN[a][0])}</b> → <b>${esc(STN[b][0])}</b> · ${n} trạm${l.x?" · "+esc(l.x):""}<small class="zh">${a}→${b}</small>`}
  else badge=`<span class="mi ${l.m}">${{walk:"🚶",didi:"🚕",hsr:"🚄",bike:"🚲",bus:"🚌"}[l.m]}</span>`;
- return `<div class="leg">${badge}<span>${txt}</span></div>`}
+ return `<div class="leg">${badge}<span>${txt}</span>${estChip(e)}</div>`}
 function stationChips(s){const m=(s.legs||[]).filter(l=>l.m==="metro");if(!m.length)return"";const last=m[m.length-1];const [ln,a,b]=last.r.split("|");
  const city=last.hz?CITY.hz:CITY.sh;
  return `<a class="stchip" target="_blank" rel="noopener" href="https://uri.amap.com/search?keyword=${encodeURIComponent(b+"地铁站")}&city=${city}&src=huyquynh.trip&callnative=1">🚇 Ga metro gần nhất: ${esc(STN[b][0])} · ${b}站 ↗</a>`}
@@ -1504,7 +1541,7 @@ function renderDay(id){const d=DAYS.find(x=>x.id===id);let n=0;
     <div class="names">${esc(p.en)} · <span class="zh">${esc(p.zh)}</span></div>
     <p class="d">${esc(s.d)}</p>
     ${stationChips(s)}
-    ${s.legs&&s.legs.length?`<div class="legs"><div class="lt">Cách đi${s.from?` từ ${esc(P[s.from].vn.split(" (")[0])}`:""}</div>${s.legs.map(legHTML).join("")}</div>`:""}
+    ${s.legs&&s.legs.length?(()=>{const E=estimateStop(s);return `<div class="legs"><div class="lt"><span>Cách đi${s.from?` từ ${esc(P[s.from].vn.split(" (")[0])}`:""}</span>${E.km>0?`<em>Tổng ≈ ${fmtMin(E.min)} · ${fmtKm(E.km)}</em>`:""}</div>${s.legs.map((l,j)=>legHTML(l,E.out[j])).join("")}${E.extra.map(x=>`<div class="leg"><span class="mi walk">🚶</span><span>đi bộ chuyển tiếp (ra ga / trong ga)</span>${estChip(x)}</div>`).join("")}</div>`})():""}
     ${(s.food||s.tips)?`<div class="sub">${s.food?`<div class="box food"><b>🍜 Ăn gì gần đây</b><ul>${s.food.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></div>`:""}${s.tips?`<div class="box tip"><b>💡 Lưu ý</b><ul>${s.tips.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></div>`:""}</div>`:""}
     <div class="btns">
      <a class="btn amap" target="_blank" rel="noopener" href="${amapSearch(s.p)}">高德 Tìm trên Amap</a>
@@ -1516,6 +1553,7 @@ function renderDay(id){const d=DAYS.find(x=>x.id===id);let n=0;
     </div>
    </div></article>`}).join("");
  $("#dayBody").innerHTML=`<div class="dayhead"><img src="${IMG[d.cover]}" referrerpolicy="no-referrer" alt="" onerror="this.remove()"><div class="in"><small>${esc(d.date)}</small><h3>${esc(d.title)}</h3><p>${esc(d.intro)}</p></div></div>
+  <div class="daysum">${(()=>{let km=0,mn=0,wk=0;d.stops.forEach(s=>{const E=estimateStop(s);km+=E.km;mn+=E.min;E.out.forEach((e,j)=>{if(e&&s.legs[j].m==="walk")wk+=e.km});E.extra.forEach(e=>wk+=e.km)});return `<span>🧭 Di chuyển cả ngày ≈ ${fmtKm(km)}</span><span>⏱️ ≈ ${fmtMin(mn)} trên đường</span><span>🚶 Đi bộ chuyển tiếp ≈ ${fmtKm(wk)}</span>`})()}</div>
   <div class="strip">${strip}</div>${cards}`;
  $$(".dtab").forEach(t=>{const on=t.dataset.id===id;t.classList.toggle("on",on);t.style.background=on?DAYS.find(x=>x.id===t.dataset.id).color:"#fff"});
  try{localStorage.setItem("sh_day",id)}catch(e){}}
