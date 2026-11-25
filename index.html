@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f1b2d">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -892,6 +892,107 @@ tr.tot td{font-weight:800;background:#f8fafc}
 footer{padding:40px 0 60px;color:var(--mute);font-size:12.5px}
 footer a{color:var(--ink2)}
 
+/* ===== MOBILE APP MODE ===== */
+.tabbar,.mcd{display:none}
+details>summary{cursor:pointer;list-style:none}
+details>summary::-webkit-details-marker{display:none}
+.box summary b{display:inline}
+.box summary:after{content:" ▾";font-size:11px;opacity:.6}
+details[open].box summary:after{content:" ▴"}
+.legwrap summary{font-size:12.5px;font-weight:700;color:var(--mute);margin-top:8px}
+.btns.sec{margin-top:8px}
+@media(max-width:760px){
+ body{padding-bottom:calc(68px + env(safe-area-inset-bottom));-webkit-tap-highlight-color:transparent}
+ body.m [data-v]{display:none}
+ body.m[data-view="days"] [data-v="days"],body.m[data-view="map"] [data-v="map"],body.m[data-view="food"] [data-v="food"],body.m[data-view="prep"] [data-v="prep"],body.m[data-view="guide"] [data-v="guide"]{display:block}
+ body.m[data-view="days"] header[data-v="days"]{display:flex}
+ .wrap{padding:0 12px}
+ .nav{padding-top:env(safe-area-inset-top)}
+ .nav .wrap{height:48px;justify-content:space-between}
+ .navlinks{display:none}
+ .mcd{display:block;font-size:12.5px;font-weight:800;background:var(--red);color:#fff;border-radius:999px;padding:4px 10px}
+ .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:2000;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid #e5e0d6;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+ .tabbar button{border:0;background:none;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;color:#64748b;font-size:11px;font-weight:700;border-radius:12px}
+ .tabbar button i{font-style:normal;font-size:20px;line-height:1.1;filter:grayscale(1);opacity:.7}
+ .tabbar button.on{color:var(--ink);background:#f1ece3}
+ .tabbar button.on i{filter:none;opacity:1}
+ /* hero gọn */
+ .hero{min-height:0}
+ .hero .wrap{padding-top:22px;padding-bottom:16px}
+ .hero h1{font-size:28px;margin:6px 0 4px}
+ .hero h1 .zh{font-size:12px;letter-spacing:.2em;margin-top:4px}
+ .hero p.lead,.countdown,.eyebrow{display:none}
+ .kpis{grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+ .kpi{padding:9px 11px;border-radius:12px}
+ .kpi b{font-size:14px}.kpi span{font-size:11.5px}.kpi small{font-size:10.5px}
+ section{padding:18px 0 6px}
+ .sh{margin-bottom:12px}
+ .sh h2{font-size:22px}
+ .sh p{font-size:13.5px}
+ #days .sh,#map-sec .sh p{display:none}
+ /* tab ngày dính trên đầu */
+ .daytabs{top:calc(48px + env(safe-area-inset-top));margin:0 -12px;padding:8px 12px;gap:6px;scrollbar-width:none;border-bottom:1px solid #ece6db}
+ .daytabs::-webkit-scrollbar{display:none}
+ .dtab{padding:6px 12px;border-radius:12px}
+ .dtab b{font-size:14px}.dtab small{font-size:10px}
+ .dayhead{min-height:170px;margin-top:10px}
+ .dayhead .in{padding:14px}
+ .dayhead h3{font-size:21px}
+ .dayhead p{font-size:13px;line-height:1.45}
+ .daysum{gap:6px;margin-top:10px}
+ .daysum span{font-size:12px;padding:5px 10px}
+ .strip{margin:4px -12px 0;padding:14px 12px 4px;scrollbar-width:none}
+ .strip::-webkit-scrollbar{display:none}
+ .sn{width:78px}.sn small{font-size:11px}
+ .sl{width:18px}
+ /* thẻ điểm dừng */
+ .stop{grid-template-columns:1fr;margin-top:12px;border-radius:14px}
+ .stop .ph{min-height:0;height:150px}
+ .stop .bd{padding:12px 14px 14px}
+ .stop h4{font-size:18px}
+ .stop p.d{font-size:14px}
+ .stchip{font-size:12.5px;margin-bottom:8px}
+ .legs{padding:9px 10px;gap:8px}
+ .leg{flex-wrap:wrap;align-items:flex-start;font-size:13.5px;row-gap:3px}
+ .leg>span:nth-child(2){flex:1 1 calc(100% - 46px);min-width:0}
+ .leg .est{margin-left:42px;order:3}
+ .leg small.zh{display:block;margin:2px 0 0}
+ .sub{grid-template-columns:1fr;gap:8px}
+ .box{padding:10px 12px}
+ .btns.pri{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ .btns.pri .btn{justify-content:center;padding:12px 8px;font-size:14px;border-radius:12px}
+ .btns.pri .btn:only-child{grid-column:1/-1}
+ .btn.pri{background:var(--ink);color:#fff;border-color:var(--ink)}
+ .btns.sec{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+ .btns.sec .btn{flex-direction:column;justify-content:center;gap:2px;padding:8px 2px;font-size:17px;border-radius:12px}
+ .btns.sec .btn span{font-size:10.5px;font-weight:700;text-align:center;line-height:1.2}
+ /* bản đồ full màn */
+ #map-sec{padding-top:10px}
+ #map-sec .sh{margin-bottom:8px}#map-sec .sh h2{font-size:20px}
+ .chips{flex-wrap:nowrap;overflow-x:auto;margin:0 -12px 8px;padding:0 12px;scrollbar-width:none}
+ .chips::-webkit-scrollbar{display:none}
+ .chip{flex:0 0 auto;padding:7px 12px}
+ #map{height:calc(100dvh - 48px - 76px - 120px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:360px;border-radius:14px}
+ .legwrap:not([open]) .legend{display:none}
+ .legend{gap:8px 12px;font-size:11.5px}
+ .maphint{display:none}
+ /* booking / guide / food */
+ .grid2,.g3,.fgrid,.cl,.phr{grid-template-columns:1fr;gap:10px}
+ .bk{padding:14px}
+ .fd{flex-direction:row}
+ .fd .fi{flex:0 0 110px;height:auto;min-height:130px}
+ .fd .in{padding:10px 12px}
+ .fd h4{font-size:15px}
+ .fd p{font-size:12.5px}
+ .gc .gimg,.gc .gico{height:90px}
+ .gc .gico{font-size:40px}
+ table{font-size:13px}th,td{padding:8px}
+ .ci{padding:12px}
+ footer{padding:20px 0}
+ .modal .big{font-size:40px}
+ .toast{bottom:calc(84px + env(safe-area-inset-bottom))}
+ .leaflet-popup-content{width:220px!important}
+}
 /* MODAL */
 .modal{position:fixed;inset:0;background:rgba(15,27,45,.96);z-index:5000;display:none;align-items:center;justify-content:center;padding:24px;color:#fff;text-align:center}
 .modal.on{display:flex}
@@ -906,13 +1007,13 @@ footer a{color:var(--ink2)}
 <body>
 
 <nav class="nav"><div class="wrap">
-  <div class="brand">上海 · 杭州 <span>22–28/12</span></div>
+  <div class="brand">上海 · 杭州 <span>22–28/12</span></div><div class="mcd" id="mcd"></div>
   <div class="navlinks">
     <a href="#booking">Booking</a><a href="#map-sec">Bản đồ</a><a href="#days">Lịch trình</a><a href="#guide">Hướng dẫn</a><a href="#food">Ăn gì</a><a href="#budget">Chi phí</a><a href="#check">Checklist</a>
   </div>
 </div></nav>
 
-<header class="hero">
+<header class="hero" data-v="days">
   <img class="bg" src="" data-img="hero" alt="Lujiazui về đêm nhìn từ Bến Thượng Hải">
   <div class="wrap">
     <div class="eyebrow">❄️ Mùa đông 2–10°C · 2 người · Metro & tàu cao tốc</div>
@@ -931,7 +1032,7 @@ footer a{color:var(--ink2)}
 <main class="wrap">
 
 <!-- BOOKING -->
-<section id="booking">
+<section id="booking" data-v="prep">
   <div class="sh"><div><div class="k">Việc cần chốt</div><h2>Trạng thái booking</h2><p>1 mục đã xong, 5 mục cần đặt trước ngày đi.</p></div></div>
   <div class="grid2">
     <div class="card bk">
@@ -987,23 +1088,23 @@ footer a{color:var(--ink2)}
 </section>
 
 <!-- MAP -->
-<section id="map-sec">
+<section id="map-sec" data-v="map">
   <div class="sh"><div><div class="k">Amap · 高德地图</div><h2>Bản đồ hành trình</h2><p>Nền bản đồ lấy từ Amap (chuẩn nhất ở Trung Quốc). Bấm từng điểm để xem ảnh, mở Amap hoặc chỉ đường. Đường nét đứt là thứ tự di chuyển trong ngày, không phải đường đi thật.</p></div></div>
   <div class="chips" id="mapChips"></div>
   <div style="position:relative"><div id="map"></div><div class="mapwarn" id="mapwarn"><div><b>🗺️ Bản đồ chưa tải được</b>Khung xem trước (trong app chat / trình xem file) chặn tải bản đồ & ảnh từ internet. Hãy tải file về rồi mở bằng <b>Chrome, Edge hoặc Safari</b>, hoặc mở link host. Ghim, tuyến metro và các nút Amap vẫn dùng được.</div></div></div>
-  <div class="legend"><span><i style="border-color:#009EDB"></i>Metro (đúng màu tuyến, vẽ theo đường ray thật)</span><span><i style="border-top-style:dotted;border-color:#64748b"></i>Đi bộ ga ↔ điểm đến (theo đường phố thật)</span><span><i style="border-top-style:dashed;border-color:#0d9488"></i>Bus</span><span><i style="border-top-style:dashed;border-color:#0a73ff"></i>HelloBike</span><span><i style="border-top-style:dashed;border-color:#1e3a8a"></i>Tàu cao tốc</span><span><i style="border-top-style:dashed;border-color:#ff7a1a"></i>DiDi (chỉ chặng sân bay đêm/sáng sớm)</span><span><span class="stm" style="border-color:#009EDB;display:inline-block"></span>Ga metro – bấm để mở trên Amap</span></div>
+  <details class="legwrap" open><summary>Chú thích bản đồ</summary><div class="legend"><span><i style="border-color:#009EDB"></i>Metro (đúng màu tuyến, vẽ theo đường ray thật)</span><span><i style="border-top-style:dotted;border-color:#64748b"></i>Đi bộ ga ↔ điểm đến (theo đường phố thật)</span><span><i style="border-top-style:dashed;border-color:#0d9488"></i>Bus</span><span><i style="border-top-style:dashed;border-color:#0a73ff"></i>HelloBike</span><span><i style="border-top-style:dashed;border-color:#1e3a8a"></i>Tàu cao tốc</span><span><i style="border-top-style:dashed;border-color:#ff7a1a"></i>DiDi (chỉ chặng sân bay đêm/sáng sớm)</span><span><span class="stm" style="border-color:#009EDB;display:inline-block"></span>Ga metro – bấm để mở trên Amap</span></div></details>
   <div class="maphint">Góc phải bản đồ: đổi nền <b>Amap tiếng Anh (mặc định) / tiếng Trung / vệ tinh</b>. Nút 📍 hiện vị trí của bạn (khi đang ở Trung Quốc). Bản đồ tải trực tiếp từ máy chủ Amap nên cần mở file bằng <b>Chrome / Safari / Edge có mạng</b>.</div>
 </section>
 
 <!-- DAYS -->
-<section id="days">
+<section id="days" data-v="days">
   <div class="sh"><div><div class="k">7 ngày · 6 đêm</div><h2>Lịch trình chi tiết</h2><p>Mỗi điểm có giờ, cách đi từng chặng (màu đúng màu tuyến metro) kèm <b>số phút & km</b> (🛣️ = tính theo đường đi thật trên bản đồ; ≈ = ước tính), quán ăn gần đó, mẹo và nút mở Amap/chỉ đường từ điểm trước. Thời gian metro đã tính cả chờ tàu; đi bộ tính theo tốc độ thong thả, chưa gồm thời gian dạo/chụp ảnh.</p></div></div>
   <div class="daytabs" id="dayTabs"></div>
   <div id="dayBody"></div>
 </section>
 
 <!-- GUIDE -->
-<section id="guide">
+<section id="guide" data-v="guide">
   <div class="sh"><div><div class="k">Cẩm nang</div><h2>Hướng dẫn di chuyển & app</h2><p>Mọi thứ đi qua Alipay: metro, DiDi, xe đạp, thanh toán.</p></div></div>
   <div class="g3">
     <div class="card gc"><div class="gimg"><img data-img="metro" alt="Tàu metro Thượng Hải"></div><div class="in">
@@ -1071,31 +1172,38 @@ footer a{color:var(--ink2)}
 </section>
 
 <!-- FOOD -->
-<section id="food">
+<section id="food" data-v="food">
   <div class="sh"><div><div class="k">Hot RedNote / TikTok</div><h2>Quán ăn & cafe theo ngày</h2></div></div>
   <div class="fgrid" id="fgrid"></div>
 </section>
 
 <!-- BUDGET -->
-<section id="budget">
+<section id="budget" data-v="prep">
   <div class="sh"><div><div class="k">Dự toán 2 người</div><h2>Chi phí tại chỗ</h2><p>Theo bảng tính trong kế hoạch, tỷ giá 1¥ ≈ 3.550₫. Chưa gồm vé máy bay & khách sạn.</p></div></div>
   <div class="card" style="overflow:auto"><table id="btable"></table></div>
   <div class="card" style="overflow:auto;margin-top:14px"><table id="ftable"></table></div>
 </section>
 
 <!-- CHECKLIST -->
-<section id="check">
+<section id="check" data-v="prep">
   <div class="sh"><div><div class="k">Chuẩn bị</div><h2>Checklist trước khi đi</h2><p>Tick lại được – lưu trên máy đang mở trang này.</p></div><div style="font-weight:800" id="progTxt"></div></div>
   <div class="prog"><i id="progBar" style="width:0"></i></div>
   <div class="cl" id="cl"></div>
 </section>
 
-<footer>
+<footer data-v="guide">
   <div>Ảnh thực tế: Wikimedia Commons (giấy phép CC, thuộc các tác giả tương ứng) – <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">commons.wikimedia.org</a>. Nền bản đồ © AutoNavi / 高德地图. Giờ mở cửa & giá vé có thể thay đổi, kiểm tra lại trước khi đi.</div>
   <div style="margin-top:6px">Ảnh cần mạng ngoài Trung Quốc (eSIM có VPN) để hiện; bản đồ Amap & nội dung chữ vẫn dùng được bình thường.</div>
 </footer>
 </main>
 
+<nav class="tabbar" id="tabbar">
+ <button data-view="days" class="on"><i>🗓️</i><span>Lịch trình</span></button>
+ <button data-view="map"><i>🗺️</i><span>Bản đồ</span></button>
+ <button data-view="food"><i>🍜</i><span>Ăn gì</span></button>
+ <button data-view="prep"><i>✅</i><span>Chuẩn bị</span></button>
+ <button data-view="guide"><i>🧭</i><span>Hướng dẫn</span></button>
+</nav>
 <div class="modal" id="modal"><button class="btn x" id="mx">✕ Đóng</button><div><div class="big" id="mbig"></div><div class="sub2" id="msub"></div><small id="msm"></small></div></div>
 <div class="toast" id="toast"></div>
 
@@ -1546,7 +1654,8 @@ function legHTML(l,e){let badge,txt=esc(l.t||"");
 function stationChips(s){const m=(s.legs||[]).filter(l=>l.m==="metro");if(!m.length)return"";const last=m[m.length-1];const [ln,a,b]=last.r.split("|");
  const city=last.hz?CITY.hz:CITY.sh;
  return `<a class="stchip" target="_blank" rel="noopener" href="https://uri.amap.com/search?keyword=${encodeURIComponent(b+"地铁站")}&city=${city}&src=huyquynh.trip&callnative=1">🚇 Ga metro gần nhất: ${esc(STN[b][0])} · ${b}站 ↗</a>`}
-function renderDay(id){const d=DAYS.find(x=>x.id===id);let n=0;
+const isM=()=>matchMedia("(max-width:760px)").matches;
+function renderDay(id){const OPEN=isM()?"":" open";const d=DAYS.find(x=>x.id===id);let n=0;
  const strip=d.stops.map((s,i)=>{const isH=s.p==="hotel";if(!isH)n++;return `${i?`<div class="sl" style="background:${d.color}"></div>`:""}<div class="sn" data-go="st-${id}-${i}"><div class="dot" style="background:${isH?"#0f1b2d":d.color}">${isH?"🏨":n}</div><small>${esc(P[s.p].vn.split(" (")[0].split(" – ")[0])}</small><em>${esc(s.t)}</em></div>`}).join("");
  n=0;
  const cards=d.stops.map((s,i)=>{const p=P[s.p];const isH=s.p==="hotel";if(!isH)n++;
@@ -1559,14 +1668,16 @@ function renderDay(id){const d=DAYS.find(x=>x.id===id);let n=0;
     <p class="d">${esc(s.d)}</p>
     ${stationChips(s)}
     ${s.legs&&s.legs.length?(()=>{const E=estimateStop(s);return `<div class="legs"><div class="lt"><span>Cách đi${s.from?` từ ${esc(P[s.from].vn.split(" (")[0])}`:""}</span>${E.km>0?`<em>Tổng ≈ ${fmtMin(E.min)} · ${fmtKm(E.km)}</em>`:""}</div>${s.legs.map((l,j)=>legHTML(l,E.out[j])).join("")}${E.extra.map(x=>`<div class="leg"><span class="mi walk">🚶</span><span>đi bộ chuyển tiếp (ra ga / trong ga)</span>${estChip(x)}</div>`).join("")}</div>`})():""}
-    ${(s.food||s.tips)?`<div class="sub">${s.food?`<div class="box food"><b>🍜 Ăn gì gần đây</b><ul>${s.food.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></div>`:""}${s.tips?`<div class="box tip"><b>💡 Lưu ý</b><ul>${s.tips.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></div>`:""}</div>`:""}
-    <div class="btns">
+    ${(s.food||s.tips)?`<div class="sub">${s.food?`<details class="box food"${OPEN}><summary><b>🍜 Ăn gì gần đây (${s.food.length})</b></summary><ul>${s.food.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></details>`:""}${s.tips?`<details class="box tip"${OPEN}><summary><b>💡 Lưu ý (${s.tips.length})</b></summary><ul>${s.tips.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></details>`:""}</div>`:""}
+    <div class="btns pri">
+     ${s.from?`<a class="btn pri" target="_blank" rel="noopener" href="${amapNav(s.from,s.p,navMode(s.legs))}">🚇 Chỉ đường Amap</a>`:""}
      <a class="btn amap" target="_blank" rel="noopener" href="${amapSearch(s.p)}">高德 Tìm trên Amap</a>
-     ${s.from?`<a class="btn" target="_blank" rel="noopener" href="${amapNav(s.from,s.p,navMode(s.legs))}">🚇 Chỉ đường Amap</a>`:""}
-     <a class="btn" target="_blank" rel="noopener" href="${gmaps(s.p)}">Google Maps</a>
-     <button class="btn" data-copytext="${esc(p.zh)}">📋 Copy 中文</button>
-     <button class="btn" data-show="${s.p}">📣 Đưa tài xế xem</button>
-     <button class="btn" data-mapday="${id}">🗺️ Xem trên bản đồ</button>
+    </div>
+    <div class="btns sec">
+     <button class="btn" data-show="${s.p}">📣 <span>Đưa tài xế xem</span></button>
+     <button class="btn" data-copytext="${esc(p.zh)}">📋 <span>Copy 中文</span></button>
+     <button class="btn" data-mapday="${id}">🗺️ <span>Bản đồ</span></button>
+     <a class="btn" target="_blank" rel="noopener" href="${gmaps(s.p)}">G <span>Google Maps</span></a>
     </div>
    </div></article>`}).join("");
  $("#dayBody").innerHTML=`<div class="dayhead"><img src="${IMG[d.cover]}" referrerpolicy="no-referrer" alt="" onerror="this.remove()"><div class="in"><small>${esc(d.date)}</small><h3>${esc(d.title)}</h3><p>${esc(d.intro)}</p></div></div>
@@ -1575,9 +1686,9 @@ function renderDay(id){const d=DAYS.find(x=>x.id===id);let n=0;
  $$(".dtab").forEach(t=>{const on=t.dataset.id===id;t.classList.toggle("on",on);t.style.background=on?DAYS.find(x=>x.id===t.dataset.id).color:"#fff"});
  try{localStorage.setItem("sh_day",id)}catch(e){}}
 $("#dayTabs").innerHTML=DAYS.map(d=>`<button class="dtab" data-id="${d.id}"><small>${d.id==="d0"?"Đêm đáp":d.id==="d6"?"Bay về":"Ngày "+d.id.slice(1)}${d.city==="hz"?" · Hàng Châu":""}</small><b>${d.tab}</b></button>`).join("");
-$("#dayTabs").onclick=e=>{const t=e.target.closest(".dtab");if(t){renderDay(t.dataset.id);document.getElementById("days").scrollIntoView({behavior:"smooth"})}};
+$("#dayTabs").onclick=e=>{const t=e.target.closest(".dtab");if(t){renderDay(t.dataset.id);if(isM()){t.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});window.scrollTo({top:0,behavior:"smooth"})}else document.getElementById("days").scrollIntoView({behavior:"smooth"})}};
 document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g){const el=document.getElementById(g.dataset.go);if(el){const y=el.getBoundingClientRect().top+scrollY-130;scrollTo({top:y,behavior:"smooth"})}}
- const m=e.target.closest("[data-mapday]");if(m){showMap(m.dataset.mapday);document.getElementById("map-sec").scrollIntoView({behavior:"smooth"})}});
+ const m=e.target.closest("[data-mapday]");if(m){if(isM()){setView("map");setTimeout(()=>{map.invalidateSize();showMap(m.dataset.mapday)},60)}else{showMap(m.dataset.mapday);document.getElementById("map-sec").scrollIntoView({behavior:"smooth"})}}});
 (function(){const now=new Date();const map2={22:"d0",23:"d1",24:"d2",25:"d3",26:"d4",27:"d5",28:"d6"};let id=null;
  if(now.getFullYear()===2026&&now.getMonth()===11&&map2[now.getDate()])id=map2[now.getDate()];
  if(!id){try{id=localStorage.getItem("sh_day")}catch(e){}}renderDay(DAYS.some(d=>d.id===id)?id:"d1")})();
@@ -1602,6 +1713,25 @@ $("#fgrid").innerHTML=FOOD.map(f=>`<div class="card fd"><div class="fi"><div cla
  function draw(){$("#cl").innerHTML=CHECK.map((c,i)=>`<label class="card ci${st[i]?" done":""}"><input type="checkbox" data-i="${i}" ${st[i]?"checked":""}><div><small>${esc(c[0])}</small><span>${esc(c[1])}</span></div></label>`).join("");
   const done=CHECK.filter((_,i)=>st[i]).length;$("#progBar").style.width=(done/CHECK.length*100)+"%";$("#progTxt").textContent=`${done}/${CHECK.length} việc xong`}
  $("#cl").onchange=e=>{const i=e.target.dataset.i;st[i]=e.target.checked;try{localStorage.setItem("sh_check",JSON.stringify(st))}catch(_){}draw()};draw()})();
+</script>
+<script>
+/* ===== MOBILE: chế độ app với thanh tab ===== */
+const VIEWS={"lich-trinh":"days","ban-do":"map","an-uong":"food","chuan-bi":"prep","huong-dan":"guide"};
+const VHASH=Object.fromEntries(Object.entries(VIEWS).map(([a,b])=>[b,a]));
+function setView(v,noHash){document.body.dataset.view=v;
+ $$("#tabbar button").forEach(b=>b.classList.toggle("on",b.dataset.view===v));
+ window.scrollTo(0,0);
+ if(v==="map")setTimeout(()=>map.invalidateSize(),50);
+ if(!noHash){try{history.replaceState(null,"","#"+VHASH[v])}catch(e){}}
+ try{localStorage.setItem("sh_view",v)}catch(e){}}
+$("#tabbar").onclick=e=>{const b=e.target.closest("button");if(b)setView(b.dataset.view)};
+function applyMode(){const m=isM();document.body.classList.toggle("m",m);const lw=$(".legwrap");if(lw)lw.open=!m;
+ if(m){const h=location.hash.slice(1);let v=VIEWS[h]||({"days":"days","map-sec":"map","food":"food","booking":"prep","budget":"prep","check":"prep","guide":"guide"})[h];
+   if(!v){try{v=localStorage.getItem("sh_view")}catch(e){}}setView(v||"days",true)}
+ else{map.invalidateSize()}}
+applyMode();matchMedia("(max-width:760px)").addEventListener("change",()=>{applyMode();const t=$(".dtab.on");if(t)renderDay(t.dataset.id)});
+window.addEventListener("hashchange",()=>{if(isM()&&VIEWS[location.hash.slice(1)])setView(VIEWS[location.hash.slice(1)],true)});
+$("#mcd").textContent=(()=>{const d=Math.ceil((new Date("2026-12-22T00:00:00+07:00")-new Date())/864e5);return d>0?"✈️ còn "+d+" ngày":"🎄 đang đi"})();
 </script>
 <script>if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js").catch(()=>{})}</script>
 </body>
