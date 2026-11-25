@@ -712,10 +712,15 @@ img{display:block;max-width:100%}
 .hero p.lead{max-width:640px;color:#e2e8f0;margin:0 0 18px;font-size:15.5px}
 .countdown{display:inline-flex;align-items:baseline;gap:8px;background:var(--red);padding:8px 14px;border-radius:12px;font-weight:700;margin-bottom:18px}
 .countdown b{font-size:24px}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.kpi{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:12px 14px}
-.kpi small{display:block;color:#cbd5e1;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em}
-.kpi b{display:block;font-size:15.5px;margin:2px 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.dinfo-h{font-size:12.5px;font-weight:800;color:#fde68a;letter-spacing:.06em;text-transform:uppercase;margin:4px 0 8px;display:flex;justify-content:space-between;gap:8px}
+.dinfo-h a{color:#cbd5e1;text-transform:none;letter-spacing:0;font-weight:600;text-decoration:none}
+.kpi{display:flex;gap:9px;align-items:flex-start}
+.kpi>i{font-style:normal;font-size:19px;line-height:1.2}
+.kpi.red{background:rgba(185,28,28,.35);border-color:rgba(252,165,165,.5)}
+.kpi{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:9px 11px}
+.kpi small{display:block;color:#cbd5e1;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em}
+.kpi b{display:block;font-size:13.5px;margin:1px 0 0;line-height:1.3}
 .kpi span{font-size:12.5px;color:#e2e8f0}
 @media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}.hero{min-height:520px}}
 
@@ -923,8 +928,10 @@ details[open].box summary:after{content:" ▴"}
  .hero h1 .zh{font-size:12px;letter-spacing:.2em;margin-top:4px}
  .hero p.lead,.countdown,.eyebrow{display:none}
  .kpis{grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
- .kpi{padding:9px 11px;border-radius:12px}
- .kpi b{font-size:14px}.kpi span{font-size:11.5px}.kpi small{font-size:10.5px}
+ .kpis{gap:6px}
+ .kpi{padding:7px 9px;border-radius:10px;gap:7px}
+ .kpi>i{font-size:16px}
+ .kpi b{font-size:12.5px}.kpi small{font-size:9.5px}
  section{padding:18px 0 6px}
  .sh{margin-bottom:12px}
  .sh h2{font-size:22px}
@@ -1020,12 +1027,8 @@ details[open].box summary:after{content:" ▴"}
     <h1>Thượng Hải – Hàng Châu<span class="zh">上海 · 杭州 · 冬日之旅</span></h1>
     <p class="lead">Sổ tay chuyến đi của Huy & Quỳnh: lịch trình từng ngày xuất phát từ Jinjiang Inn Lujiabang Rd, bản đồ Amap, cách đi metro từng chặng, ảnh thực tế, quán ăn và checklist.</p>
     <div class="countdown" id="cd"></div>
-    <div class="kpis">
-      <div class="kpi"><small>Bay đi</small><b>SGN → PVG</b><span>Đáp 01:00 · 23/12</span></div>
-      <div class="kpi"><small>Bay về</small><b>PVG → SGN</b><span>Cất cánh 09:00 · 28/12</span></div>
-      <div class="kpi"><small>Khách sạn ✅</small><b>Jinjiang Inn</b><span>1331 Lujiabang Rd · Line 8 & 9</span></div>
-      <div class="kpi"><small>Thời tiết</small><b>2°C – 10°C</b><span>Gió ẩm · tối ~17:00</span></div>
-    </div>
+    <div class="dinfo-h" id="dinfoH"></div>
+    <div class="kpis" id="dayInfo"></div>
   </div>
 </header>
 
@@ -1513,6 +1516,17 @@ const PHRASES = [
 ];
 
 const LATE_MSG = "您好！我预订了12月22日至12月28日的房间。因为我们的航班在12月23日凌晨01:00才抵达，预计会在12月23日凌晨02:00至03:00左右到达酒店办理入住。请务必为我们保留房间，不要取消订单。非常感谢！\n\nHello! I booked a room from Dec 22 to Dec 28. Our flight lands at 01:00 AM on Dec 23, so we will arrive for late check-in around 02:00 - 03:00 AM on Dec 23. Please hold our room and do not cancel our reservation. Thank you very much!";
+
+/* Ô thông tin nhanh đầu trang, đổi theo ngày: [icon, nhãn, nội dung, mức (red=quan trọng)] */
+const DAYINFO = {
+ d0:[["✈️","Hạ cánh","PVG 01:00 · 23/12"],["🚕","Về KS","DiDi ~50' · ~200¥"],["🏨","Check-in muộn","02:00–03:00","red"],["💬","Đã nhắn KS?","Giữ phòng đêm 22","red"],["📱","Trước khi ra sảnh","Bật eSIM + Alipay"],["🌡️","Thời tiết","2–10°C · rất lạnh đêm"]],
+ d1:[["⏰","Rời KS","10:30 · Line 8"],["💄","Hẹn Hán phục","~12:45 gần Dự Viên","red"],["🎫","Dự Viên","Ngừng vào 16:00","red"],["🏮","Lên đèn","~17:00 Miếu Thành Hoàng"],["🌇","Hoàng hôn","~16:55"],["🌃","Lujiazui sáng đèn","18:00–22:00"],["🚇","Tuyến dùng","Line 8 · 10"],["🧥","Ven sông","Gió lạnh – khăn, áo gió"]],
+ d2:[["⏰","Rời KS","07:30 · Line 8→11"],["🎫","Vé Disney","Hộ chiếu gốc","red"],["📱","App","Shanghai Disney Resort"],["🎆","Pháo hoa","Xem giờ trong app"],["🚇","Chuyến Line 11 cuối","~22:30","red"],["🫖","Mang theo","Bình giữ nhiệt (nước nóng free)"],["🎄","Đêm Noel","Đông – đi sớm"]],
+ d3:[["⏰","Rời KS","06:45","red"],["🚄","Tàu đi","G ~07:45 · Hồng Kiều","red"],["🛕","Linh Ẩn","Miễn phí · ĐẶT CHỖ trước","red"],["🔁","Alipay","Đổi thẻ metro → Hangzhou"],["🚲","HelloBike","Tây Hồ · mang găng tay"],["🗼","Lôi Phong","Ngừng bán vé 17:00"],["🚄","Tàu về","~20:15 · Hàng Châu Đông","red"],["🪪","Nhớ","Hộ chiếu gốc cả ngày"]],
+ d4:[["⏰","Rời KS","09:30 · Line 8→10"],["📸","Vũ Khang","Tới trước 10:30 cho vắng"],["🚲","HelloBike","Vũ Khang → An Phú"],["🥐","Butterful","Bánh ra lò 13:30–14:30"],["🎄","Tân Thiên Địa","Chợ Noel"],["🌇","Hoàng hôn","~16:55"],["🏙️","Shanghai Tower","Đài quan sát ~180¥"],["🚇","Tuyến dùng","8 · 10 · 13 · 9 · 2"]],
+ d5:[["⏰","Rời KS","09:30 · Line 8→2"],["🛕","Tĩnh An","~50¥ · mở tới 17:00"],["☕","Starbucks CN","Đông – lên thẳng tầng 2"],["🌇","Bắc Bến","Hoàng hôn ~16:55"],["🍲","Tối","Lẩu chia tay + bánh bướm"],["🚕","Đặt DiDi hẹn giờ","05:00 sáng 28/12","red"],["🧳","Tối nay","Đóng vali sớm","red"]],
+ d6:[["⏰","Trả phòng","05:00","red"],["🚕","Ra sân bay","DiDi hẹn giờ · ~45'"],["✈️","Bay về","PVG 09:00 → SGN","red"],["🔋","Sạc dự phòng","Xách tay · <20.000 mAh"],["💴","Tiền lẻ","Tiêu hết trước khi bay"],["🛂","Có mặt PVG","~06:00"]]
+};
 </script>
 <script>/* Hình học tuyến metro (OpenStreetMap, WGS84) cho từng chặng: key "tuyến|ga đi|ga đến" -> [số trạm, [[lat,lng],...]] */
 const ML={"8|陆家浜路|人民广场":[3,[[31.2139,121.4815],[31.2183,121.48],[31.2208,121.4785],[31.2244,121.477],[31.2273,121.476],[31.2308,121.4739],[31.2342,121.4711],[31.2342,121.4711]]],"8|陆家浜路|老西门":[1,[[31.2139,121.4815],[31.2183,121.48],[31.2208,121.4785],[31.2208,121.4785]]],"8|老西门|陆家浜路":[1,[[31.2208,121.4784],[31.2183,121.4799],[31.2144,121.4813],[31.2139,121.4814]]],"8|人民广场|陆家浜路":[3,[[31.2341,121.4711],[31.2311,121.4737],[31.228,121.4756],[31.2244,121.4769],[31.2208,121.4784],[31.2183,121.4799],[31.2144,121.4813],[31.2139,121.4814]]],"8|陆家浜路|东方体育中心":[6,[[31.2139,121.4814],[31.2093,121.4831],[31.2046,121.4847],[31.2011,121.4868],[31.1959,121.49],[31.1928,121.4906],[31.1887,121.4895],[31.1857,121.4892],[31.1815,121.4899],[31.1764,121.4909],[31.1728,121.4917],[31.1689,121.4923],[31.1651,121.4911],[31.1621,121.4878],[31.1607,121.4854],[31.1581,121.479],[31.1556,121.4759],[31.1555,121.4758]]],"8|东方体育中心|陆家浜路":[6,[[31.1554,121.4759],[31.1579,121.4786],[31.1599,121.4836],[31.1616,121.4872],[31.1643,121.4905],[31.1678,121.4923],[31.1719,121.4921],[31.1764,121.4909],[31.1806,121.4902],[31.1843,121.4894],[31.1887,121.4896],[31.1923,121.4906],[31.1953,121.4903],[31.1995,121.4879],[31.2025,121.4858],[31.2063,121.4839],[31.2094,121.4832],[31.2127,121.4821],[31.2139,121.4815]]],"10|南京东路|豫园":[1,[[31.2402,121.4801],[31.2363,121.4814],[31.2336,121.4821],[31.2299,121.4828],[31.2299,121.4828]]],"10|豫园|南京东路":[1,[[31.2299,121.4829],[31.2336,121.4821],[31.2364,121.4815],[31.2403,121.4802],[31.2403,121.4802]]],"10|南京东路|老西门":[2,[[31.2402,121.4801],[31.2363,121.4814],[31.2336,121.4821],[31.229,121.4831],[31.2262,121.4841],[31.2233,121.4844],[31.2214,121.4813],[31.2209,121.479]]],"10|老西门|虹桥火车站":[13,[[31.2209,121.479],[31.2195,121.474],[31.2181,121.4699],[31.2181,121.4651],[31.2177,121.4608],[31.2176,121.4573],[31.2169,121.454],[31.2152,121.4501],[31.2132,121.4476],[31.2122,121.4439],[31.21,121.4397],[31.2069,121.4348],[31.2043,121.4309],[31.2012,121.4233],[31.1999,121.4202],[31.1986,121.4175],[31.1979,121.414],[31.1982,121.4095],[31.1987,121.4055],[31.2001,121.4012],[31.202,121.3955],[31.2025,121.3927],[31.2022,121.3897],[31.2009,121.3866],[31.1999,121.3837],[31.1987,121.3795],[31.1963,121.3755],[31.1942,121.3718],[31.1924,121.3677],[31.1921,121.364],[31.1927,121.3597],[31.193,121.3556],[31.1934,121.3522],[31.1933,121.3465],[31.1932,121.342],[31.1936,121.3382],[31.1945,121.3355],[31.1954,121.3328],[31.196,121.3301],[31.196,121.3225],[31.1959,121.3194],[31.1957,121.315],[31.1957,121.3132]]],"10|虹桥火车站|老西门":[13,[[31.1958,121.3143],[31.196,121.3194],[31.1961,121.3225],[31.1961,121.3283],[31.1959,121.3314],[31.1945,121.3355],[31.1936,121.3382],[31.1933,121.3412],[31.1933,121.3462],[31.1935,121.3501],[31.1935,121.3531],[31.1931,121.3571],[31.1921,121.3609],[31.192,121.364],[31.1922,121.3673],[31.1933,121.3701],[31.195,121.3735],[31.1986,121.3795],[31.1998,121.3838],[31.2009,121.3867],[31.2021,121.3897],[31.2025,121.3927],[31.2019,121.3955],[31.2001,121.4012],[31.1986,121.4054],[31.1982,121.4087],[31.1979,121.4122],[31.1979,121.4153],[31.199,121.4189],[31.2011,121.4233],[31.2036,121.4296],[31.2068,121.4348],[31.2099,121.4398],[31.2118,121.4431],[31.2127,121.4466],[31.2148,121.4499],[31.2165,121.4531],[31.2175,121.4564],[31.2176,121.4602],[31.2181,121.4644],[31.2177,121.4682],[31.2191,121.4732],[31.2206,121.4776],[31.2209,121.479]]],"10|老西门|交通大学":[4,[[31.2209,121.479],[31.2195,121.474],[31.2181,121.4699],[31.2181,121.4651],[31.2177,121.4608],[31.2176,121.4573],[31.2169,121.454],[31.2152,121.4501],[31.2132,121.4476],[31.2122,121.4439],[31.21,121.4397],[31.2069,121.4348],[31.2043,121.4309],[31.2041,121.4304]]],"10|上海图书馆|新天地":[2,[[31.2099,121.4398],[31.2118,121.4431],[31.2127,121.4466],[31.2148,121.4499],[31.2165,121.4531],[31.2175,121.4564],[31.2176,121.4602],[31.2181,121.4644],[31.2177,121.4682],[31.2181,121.4699]]],"10|天潼路|南京东路":[1,[[31.2458,121.4778],[31.2429,121.479],[31.2402,121.4801],[31.2402,121.4801]]],"11|东方体育中心|迪士尼":[9,[[31.1553,121.4759],[31.1543,121.4791],[31.1512,121.4841],[31.1499,121.487],[31.1502,121.4948],[31.1494,121.4977],[31.1456,121.5009],[31.1445,121.5042],[31.1454,121.5079],[31.1469,121.5126],[31.1479,121.5155],[31.1486,121.5189],[31.1518,121.5301],[31.1527,121.5328],[31.1535,121.5366],[31.1562,121.5483],[31.1569,121.5519],[31.1576,121.5547],[31.1587,121.5593],[31.1595,121.5623],[31.1605,121.5674],[31.1613,121.571],[31.1617,121.574],[31.1624,121.5772],[31.1625,121.5804],[31.1617,121.5844],[31.1593,121.5874],[31.1549,121.5891],[31.1514,121.5911],[31.1455,121.5925],[31.1421,121.5935],[31.1384,121.595],[31.135,121.5967],[31.133,121.599],[31.1322,121.6018],[31.1323,121.6072],[31.1326,121.6123],[31.1331,121.6195],[31.1334,121.6228],[31.134,121.6289],[31.1343,121.6317],[31.1348,121.6364],[31.1355,121.642],[31.1359,121.6453],[31.1363,121.6483],[31.1371,121.6521],[31.1387,121.6548],[31.1407,121.6583],[31.1423,121.6611],[31.1435,121.6645],[31.1435,121.6645]]],"11|迪士尼|东方体育中心":[9,[[31.1432,121.6631],[31.1415,121.6596],[31.1397,121.6564],[31.138,121.6536],[31.1368,121.6509],[31.136,121.6453],[31.1356,121.642],[31.135,121.6378],[31.1347,121.6344],[31.1342,121.6302],[31.1336,121.6249],[31.1333,121.6212],[31.1327,121.6129],[31.1325,121.6095],[31.1322,121.6041],[31.1323,121.601],[31.1337,121.598],[31.1373,121.5956],[31.141,121.594],[31.1437,121.5929],[31.1481,121.5924],[31.1512,121.5913],[31.1547,121.5894],[31.1592,121.5877],[31.1617,121.5847],[31.1626,121.5804],[31.1625,121.5776],[31.1618,121.5739],[31.1613,121.571],[31.1607,121.5682],[31.1598,121.5639],[31.1592,121.5607],[31.1578,121.5554],[31.1569,121.5514],[31.1549,121.5419],[31.1535,121.5366],[31.1529,121.5335],[31.152,121.5308],[31.149,121.52],[31.1481,121.5161],[31.1472,121.5134],[31.1458,121.5091],[31.1449,121.5063],[31.1447,121.5023],[31.149,121.4982],[31.15,121.4882],[31.1526,121.4829],[31.1544,121.4799],[31.1554,121.4767],[31.1556,121.476]]],"13|新天地|马当路":[1,[[31.2179,121.4698],[31.2144,121.4711],[31.2117,121.4717]]],"13|南京西路|江宁路":[3,[[31.2305,121.458],[31.2337,121.4574],[31.2365,121.458],[31.2407,121.4567],[31.2426,121.4543],[31.2451,121.4514],[31.2475,121.4482],[31.2474,121.4449],[31.2468,121.4419],[31.2462,121.4398]]],"13|江宁路|汉中路":[1,[[31.2461,121.4399],[31.2464,121.4427],[31.2472,121.4464],[31.2466,121.4502],[31.2443,121.4519],[31.2425,121.4543],[31.2425,121.4543]]],"9|马当路|打浦桥":[1,[[31.2113,121.472],[31.2105,121.4677],[31.2089,121.4651],[31.2083,121.464]]],"9|打浦桥|世纪大道":[5,[[31.2082,121.464],[31.2104,121.4677],[31.2112,121.4719],[31.213,121.4766],[31.2136,121.4797],[31.2143,121.4858],[31.2149,121.4902],[31.217,121.4934],[31.2213,121.494],[31.2246,121.4965],[31.2284,121.5018],[31.2303,121.5046],[31.2312,121.508],[31.2323,121.5119],[31.2333,121.5149],[31.2324,121.5188],[31.2306,121.5226],[31.2306,121.5226]]],"9|世纪大道|陆家浜路":[3,[[31.2307,121.5226],[31.2324,121.5188],[31.2334,121.5149],[31.2324,121.5118],[31.2314,121.5083],[31.2303,121.5046],[31.2285,121.5018],[31.2259,121.4989],[31.2244,121.4958],[31.2219,121.494],[31.2171,121.4933],[31.215,121.4902],[31.2144,121.4858],[31.214,121.4824],[31.2138,121.4811]]],"2|世纪大道|陆家嘴":[2,[[31.2307,121.5229],[31.2323,121.5196],[31.2341,121.515],[31.2355,121.5111],[31.2372,121.5062],[31.2394,121.5003],[31.2402,121.4981]]],"2|陆家嘴|世纪大道":[2,[[31.2401,121.4981],[31.2377,121.5042],[31.2362,121.5084],[31.2339,121.5152],[31.2323,121.5196],[31.2307,121.5229],[31.2307,121.5229]]],"2|人民广场|静安寺":[2,[[31.2357,121.4693],[31.2333,121.4651],[31.2328,121.4614],[31.2323,121.4574],[31.2309,121.4537],[31.2286,121.4486],[31.2268,121.4454],[31.2253,121.4422],[31.2253,121.4422]]],"2|静安寺|南京西路":[1,[[31.2253,121.4422],[31.2268,121.4454],[31.2286,121.4486],[31.2308,121.4535],[31.2318,121.456]]],"12|汉中路|国际客运中心":[3,[[31.2426,121.4544],[31.2443,121.4586],[31.2442,121.4621],[31.2442,121.4655],[31.245,121.4718],[31.2454,121.4761],[31.2461,121.4791],[31.2475,121.483],[31.2479,121.486],[31.2501,121.4896],[31.2521,121.494],[31.2521,121.494]]],"12|国际客运中心|天潼路":[1,[[31.2522,121.4939],[31.2509,121.4911],[31.2487,121.4878],[31.2477,121.4837],[31.2466,121.4799],[31.2458,121.478]]],"1|定安路|火车东站":[7,[[30.2483,120.1633],[30.2495,120.1599],[30.2528,120.1597],[30.2571,120.1595],[30.2605,120.1593],[30.2643,120.1591],[30.2678,120.1589],[30.2708,120.1588],[30.2737,120.1591],[30.2772,120.1611],[30.2813,120.161],[30.2848,120.162],[30.2861,120.1648],[30.2873,120.1675],[30.2878,120.1722],[30.2876,120.1751],[30.2869,120.179],[30.2863,120.1818],[30.2862,120.1857],[30.2883,120.1924],[30.2902,120.2025],[30.2922,120.2065],[30.2934,120.2083]]],"1|火车东站|龙翔桥":[6,[[30.2937,120.2081],[30.291,120.2037],[30.2888,120.1937],[30.2871,120.1884],[30.2863,120.1856],[30.2868,120.18],[30.2875,120.1768],[30.2879,120.1722],[30.2879,120.1693],[30.2866,120.1654],[30.2851,120.1623],[30.2812,120.161],[30.2773,120.161],[30.2738,120.1591],[30.2697,120.1587],[30.2665,120.1589],[30.262,120.159],[30.2581,120.1593],[30.2571,120.1593]]]};
@@ -1684,10 +1698,14 @@ function renderDay(id){const OPEN=isM()?"":" open";const d=DAYS.find(x=>x.id===i
   <div class="daysum">${(()=>{let km=0,mn=0,wk=0;d.stops.forEach(s=>{const E=estimateStop(s);km+=E.km;mn+=E.min;E.out.forEach((e,j)=>{if(e&&s.legs[j].m==="walk")wk+=e.km});E.extra.forEach(e=>wk+=e.km)});return `<span>🧭 Di chuyển cả ngày ≈ ${fmtKm(km)}</span><span>⏱️ ≈ ${fmtMin(mn)} trên đường</span><span>🚶 Đi bộ chuyển tiếp ≈ ${fmtKm(wk)}</span>`})()}</div>
   <div class="strip">${strip}</div>${cards}`;
  $$(".dtab").forEach(t=>{const on=t.dataset.id===id;t.classList.toggle("on",on);t.style.background=on?DAYS.find(x=>x.id===t.dataset.id).color:"#fff"});
+ const di=DAYINFO[id]||[];
+ $("#dinfoH").innerHTML=`<span>📌 ${esc(d.tab)} · điều cần nhớ</span><a href="#" data-go-days>Xem lịch ngày →</a>`;
+ $("#dayInfo").innerHTML=di.map(x=>`<div class="kpi${x[3]?" red":""}"><i>${x[0]}</i><div><small>${esc(x[1])}</small><b>${esc(x[2])}</b></div></div>`).join("");
  try{localStorage.setItem("sh_day",id)}catch(e){}}
 $("#dayTabs").innerHTML=DAYS.map(d=>`<button class="dtab" data-id="${d.id}"><small>${d.id==="d0"?"Đêm đáp":d.id==="d6"?"Bay về":"Ngày "+d.id.slice(1)}${d.city==="hz"?" · Hàng Châu":""}</small><b>${d.tab}</b></button>`).join("");
 $("#dayTabs").onclick=e=>{const t=e.target.closest(".dtab");if(t){renderDay(t.dataset.id);if(isM()){t.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});window.scrollTo({top:0,behavior:"smooth"})}else document.getElementById("days").scrollIntoView({behavior:"smooth"})}};
-document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g){const el=document.getElementById(g.dataset.go);if(el){const y=el.getBoundingClientRect().top+scrollY-130;scrollTo({top:y,behavior:"smooth"})}}
+document.addEventListener("click",e=>{if(e.target.closest("[data-go-days]")){e.preventDefault();document.getElementById("dayTabs").scrollIntoView({behavior:"smooth"});return}
+ const g=e.target.closest("[data-go]");if(g){const el=document.getElementById(g.dataset.go);if(el){const y=el.getBoundingClientRect().top+scrollY-130;scrollTo({top:y,behavior:"smooth"})}}
  const m=e.target.closest("[data-mapday]");if(m){if(isM()){setView("map");setTimeout(()=>{map.invalidateSize();showMap(m.dataset.mapday)},60)}else{showMap(m.dataset.mapday);document.getElementById("map-sec").scrollIntoView({behavior:"smooth"})}}});
 (function(){const now=new Date();const map2={22:"d0",23:"d1",24:"d2",25:"d3",26:"d4",27:"d5",28:"d6"};let id=null;
  if(now.getFullYear()===2026&&now.getMonth()===11&&map2[now.getDate()])id=map2[now.getDate()];
@@ -1715,6 +1733,21 @@ $("#fgrid").innerHTML=FOOD.map(f=>`<div class="card fd"><div class="fi"><div cla
  $("#cl").onchange=e=>{const i=e.target.dataset.i;st[i]=e.target.checked;try{localStorage.setItem("sh_check",JSON.stringify(st))}catch(_){}draw()};draw()})();
 </script>
 <script>
+/* ===== Mở thẳng app Amap trên điện thoại ===== */
+const UA=navigator.userAgent,IS_IOS=/iPhone|iPad|iPod/.test(UA)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1),IS_AND=/Android/.test(UA);
+function amapApp(web){const u=new URL(web),q=u.searchParams,SRC="huyquynhtrip";const T={bus:1,car:0,walk:2,ride:3};
+ if(u.pathname.startsWith("/navigation")){const f=(q.get("from")||"").split(","),t=(q.get("to")||"").split(",");const tt=T[q.get("mode")]??1;
+   const p=`sourceApplication=${SRC}&slat=${f[1]}&slon=${f[0]}&sname=${encodeURIComponent(f.slice(2).join(","))}&dlat=${t[1]}&dlon=${t[0]}&dname=${encodeURIComponent(t.slice(2).join(","))}&dev=0&t=${tt}`;
+   return IS_IOS?`iosamap://path?${p}`:`intent://route/plan/?${p}#Intent;scheme=amapuri;S.browser_fallback_url=${encodeURIComponent(web)};end`}
+ if(u.pathname.startsWith("/marker")){const pos=(q.get("position")||"").split(",");const p=`sourceApplication=${SRC}&poiname=${encodeURIComponent(q.get("name")||"")}&lat=${pos[1]}&lon=${pos[0]}&dev=0`;
+   return IS_IOS?`iosamap://viewMap?${p}`:`intent://viewMap?${p}#Intent;scheme=androidamap;S.browser_fallback_url=${encodeURIComponent(web)};end`}
+ const kw=encodeURIComponent(q.get("keyword")||"");
+ return IS_IOS?`iosamap://poi?sourceApplication=${SRC}&name=${kw}&dev=0`:`intent://poi?sourceApplication=${SRC}&keywords=${kw}&dev=0#Intent;scheme=androidamap;S.browser_fallback_url=${encodeURIComponent(web)};end`}
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="https://uri.amap.com/"]');if(!a||!(IS_IOS||IS_AND))return;
+ e.preventDefault();const web=a.href,app=amapApp(web);
+ if(IS_IOS){let left=false;const h=()=>{left=true};document.addEventListener("visibilitychange",h,{once:true});window.addEventListener("pagehide",h,{once:true});
+   location.href=app;setTimeout(()=>{if(!left&&!document.hidden)location.href=web},1800)}
+ else location.href=app},true);
 /* ===== MOBILE: chế độ app với thanh tab ===== */
 const VIEWS={"lich-trinh":"days","ban-do":"map","an-uong":"food","chuan-bi":"prep","huong-dan":"guide"};
 const VHASH=Object.fromEntries(Object.entries(VIEWS).map(([a,b])=>[b,a]));
