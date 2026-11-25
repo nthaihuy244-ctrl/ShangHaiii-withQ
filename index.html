@@ -1142,7 +1142,7 @@ details[open].box summary:after{content:" ▴"}
       <h3>Amap (高德地图)</h3>
       <ol><li>Trong app: Tôi (我的) → Cài đặt → chọn <b>English</b>.</li>
       <li>Tải bản đồ offline Thượng Hải & Hàng Châu.</li>
-      <li>Nút “🚇 Chỉ đường” trong trang này mở Amap với điểm đến sẵn và <b>điểm đi là vị trí hiện tại của bạn</b> (nhớ bật GPS và cho Amap quyền vị trí); nếu lệch thì dùng “Tìm trên Amap” (tìm theo tên).</li>
+      <li>Nút “🚇 Chỉ đường” trong trang này mở Amap với điểm đi/đến sẵn; nếu lệch thì dùng “Tìm trên Amap” (tìm theo tên).</li>
       <li>Google Maps ở Trung Quốc hay lệch vị trí ~500 m.</li></ol>
     </div></div>
     <div class="card gc"><div class="gico" style="background:#eef7ee">📥</div><div class="in">
@@ -1553,9 +1553,8 @@ for(const k in P){P[k].g=wgs2gcj(P[k].c[0],P[k].c[1])}
 const CITY={sh:"310000",hz:"330100"};
 const amapSearch=k=>`https://uri.amap.com/search?keyword=${encodeURIComponent(P[k].zh)}&city=${CITY[P[k].city]}&src=huyquynh.trip&callnative=1`;
 const amapMarker=k=>`https://uri.amap.com/marker?position=${P[k].g[1].toFixed(6)},${P[k].g[0].toFixed(6)}&name=${encodeURIComponent(P[k].zh)}&src=huyquynh.trip&coordinate=gaode&callnative=1`;
-/* Điểm đi = VỊ TRÍ HIỆN TẠI của người dùng: không truyền from/slat/slon, Amap tự lấy GPS (tham số `from` giữ lại chỉ để đọc, không còn dùng) */
-function amapNav(from,to,mode){const t=P[to];
- return `https://uri.amap.com/navigation?to=${t.g[1].toFixed(6)},${t.g[0].toFixed(6)},${encodeURIComponent(t.zh)}&mode=${mode}&policy=1&src=huyquynh.trip&coordinate=gaode&callnative=1`}
+function amapNav(from,to,mode){const f=from?P[from]:null,t=P[to];
+ return `https://uri.amap.com/navigation?${f?`from=${f.g[1].toFixed(6)},${f.g[0].toFixed(6)},${encodeURIComponent(f.zh)}&`:""}to=${t.g[1].toFixed(6)},${t.g[0].toFixed(6)},${encodeURIComponent(t.zh)}&mode=${mode}&policy=1&src=huyquynh.trip&coordinate=gaode&callnative=1`}
 const gmaps=k=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(P[k].en+" "+(P[k].city==="hz"?"Hangzhou":"Shanghai"))}`;
 const navMode=legs=>{const m=(legs||[]).map(l=>l.m);if(m.includes("metro")||m.includes("hsr")||m.includes("bus"))return"bus";if(m.includes("didi"))return"car";if(m.includes("bike"))return"ride";return"walk"};
 
@@ -1622,7 +1621,7 @@ function pinIcon(n,color,hotel){return L.divIcon({className:"",html:`<div class=
 function popup(k,day,stop,n){const p=P[k];const im=stop&&stop.img?IMG[stop.img]:null;
  return `<div class="pop">${im?`<img src="${im}" referrerpolicy="no-referrer" onerror="this.remove()">`:""}<div class="in">
  <b>${n?n+". ":""}${esc(p.vn)}</b><div class="zh">${esc(p.zh)}</div><small>${day?esc(day.tab+" · "+stop.t):"Khách sạn của mình"}</small>
- <div class="btns"><a class="btn amap sm" target="_blank" rel="noopener" href="${amapSearch(k)}">Mở Amap</a>${stop&&stop.from?`<a class="btn sm" target="_blank" rel="noopener" href="${amapNav(stop.from,k,navMode(stop.legs))}">🚇 Chỉ đường</a>`:""}<button class="btn sm" data-show="${k}">📣</button></div></div></div>`}
+ <div class="btns"><a class="btn amap sm" target="_blank" rel="noopener" href="${amapSearch(k)}">Mở Amap</a><a class="btn sm" target="_blank" rel="noopener" href="${amapNav(null,k,stop?navMode(stop.legs):"bus")}">📍 Chỉ đường</a><button class="btn sm" data-show="${k}">📣</button></div></div></div>`}
 const G=c=>wgs2gcj(c[0],c[1]);
 const MODE={didi:{color:"#ff7a1a",dashArray:"7 7",weight:3},bus:{color:"#0d9488",dashArray:"7 6",weight:4},hsr:{color:"#1e3a8a",dashArray:"12 7",weight:4},bike:{color:"#0a73ff",dashArray:"4 7",weight:4},walk:{color:"#64748b",dashArray:"1 7",weight:4,lineCap:"round"}};
 function connMode(pend){return pend.find(k=>k!=="walk")||"walk"}
@@ -1685,7 +1684,7 @@ function renderDay(id){const OPEN=isM()?"":" open";const d=DAYS.find(x=>x.id===i
     ${s.legs&&s.legs.length?(()=>{const E=estimateStop(s);return `<div class="legs"><div class="lt"><span>Cách đi${s.from?` từ ${esc(P[s.from].vn.split(" (")[0])}`:""}</span>${E.km>0?`<em>Tổng ≈ ${fmtMin(E.min)} · ${fmtKm(E.km)}</em>`:""}</div>${s.legs.map((l,j)=>legHTML(l,E.out[j])).join("")}${E.extra.map(x=>`<div class="leg"><span class="mi walk">🚶</span><span>đi bộ chuyển tiếp (ra ga / trong ga)</span>${estChip(x)}</div>`).join("")}</div>`})():""}
     ${(s.food||s.tips)?`<div class="sub">${s.food?`<details class="box food"${OPEN}><summary><b>🍜 Ăn gì gần đây (${s.food.length})</b></summary><ul>${s.food.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></details>`:""}${s.tips?`<details class="box tip"${OPEN}><summary><b>💡 Lưu ý (${s.tips.length})</b></summary><ul>${s.tips.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></details>`:""}</div>`:""}
     <div class="btns pri">
-     ${s.from?`<a class="btn pri" target="_blank" rel="noopener" href="${amapNav(s.from,s.p,navMode(s.legs))}">🚇 Chỉ đường Amap · từ vị trí của bạn</a>`:""}
+     <a class="btn pri" target="_blank" rel="noopener" href="${amapNav(null,s.p,navMode(s.legs))}">📍 Chỉ đường từ chỗ mình</a>
      <a class="btn amap" target="_blank" rel="noopener" href="${amapSearch(s.p)}">高德 Tìm trên Amap</a>
     </div>
     <div class="btns sec">
@@ -1737,8 +1736,8 @@ $("#fgrid").innerHTML=FOOD.map(f=>`<div class="card fd"><div class="fi"><div cla
 /* ===== Mở thẳng app Amap trên điện thoại ===== */
 const UA=navigator.userAgent,IS_IOS=/iPhone|iPad|iPod/.test(UA)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1),IS_AND=/Android/.test(UA);
 function amapApp(web){const u=new URL(web),q=u.searchParams,SRC="huyquynhtrip";const T={bus:1,car:0,walk:2,ride:3};
- if(u.pathname.startsWith("/navigation")){const hasF=!!q.get("from"),f=(q.get("from")||"").split(","),t=(q.get("to")||"").split(",");const tt=T[q.get("mode")]??1;
-   const p=`sourceApplication=${SRC}${hasF?`&slat=${f[1]}&slon=${f[0]}&sname=${encodeURIComponent(f.slice(2).join(","))}`:""}&dlat=${t[1]}&dlon=${t[0]}&dname=${encodeURIComponent(t.slice(2).join(","))}&dev=0&t=${tt}`;
+ if(u.pathname.startsWith("/navigation")){const f=(q.get("from")||"").split(","),t=(q.get("to")||"").split(",");const tt=T[q.get("mode")]??1;
+   const p=`sourceApplication=${SRC}${f[0]?`&slat=${f[1]}&slon=${f[0]}&sname=${encodeURIComponent(f.slice(2).join(","))}`:""}&dlat=${t[1]}&dlon=${t[0]}&dname=${encodeURIComponent(t.slice(2).join(","))}&dev=0&t=${tt}`;
    return IS_IOS?`iosamap://path?${p}`:`intent://route/plan/?${p}#Intent;scheme=amapuri;S.browser_fallback_url=${encodeURIComponent(web)};end`}
  if(u.pathname.startsWith("/marker")){const pos=(q.get("position")||"").split(",");const p=`sourceApplication=${SRC}&poiname=${encodeURIComponent(q.get("name")||"")}&lat=${pos[1]}&lon=${pos[0]}&dev=0`;
    return IS_IOS?`iosamap://viewMap?${p}`:`intent://viewMap?${p}#Intent;scheme=androidamap;S.browser_fallback_url=${encodeURIComponent(web)};end`}
