@@ -756,6 +756,10 @@ pre.msg{white-space:pre-wrap;background:#f8fafc;border:1px dashed #cbd5e1;border
 #map{height:560px;border-radius:var(--r);overflow:hidden;border:1px solid #e5e0d6;box-shadow:var(--sh);z-index:1}
 @media(max-width:700px){#map{height:460px}}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+#fday .fdbox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:14px}
+#fday h3{margin:0 0 4px;font-size:16px}#fday .fdst{margin-top:10px}#fday .fdst b{font-size:13px;color:var(--ink2)}
+#fday ul{margin:6px 0 0;padding-left:0;list-style:none}#fday li{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;padding:6px 0;border-top:1px dashed var(--line);font-size:14px}
+#fday li a{flex:0 0 auto}.fdnone{color:var(--mute);font-size:14px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink2);display:inline-flex;align-items:center;gap:6px}
 .chip i{width:10px;height:10px;border-radius:50%;display:inline-block}
 .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -1194,6 +1198,8 @@ details[open].box summary:after{content:" ▴"}
 <!-- FOOD -->
 <section id="food" data-v="food">
   <div class="sh"><div><div class="k">Hot RedNote / TikTok</div><h2>Quán ăn & cafe theo ngày</h2></div><a class="btn" href="#chain-sec" onclick="event.preventDefault();document.getElementById('chain-sec').scrollIntoView({behavior:'smooth'})">☕🍲 Xem chuỗi quốc dân ↓</a></div>
+  <div class="chips" id="foodChips"></div>
+  <div id="fday"></div>
   <div class="fgrid" id="fgrid"></div>
   <div class="sh" id="chain-sec" style="margin-top:28px;scroll-margin-top:60px"><div><div class="k">Có mặt khắp nơi</div><h2>Chuỗi “quốc dân” Trung Quốc</h2><p>Đâu cũng có, giá rõ ràng, gọi món qua mini-app Alipay/WeChat. Bấm “Tìm gần mình” để Amap tìm cửa hàng gần nhất.</p></div></div>
   <div class="chips" id="chainChips"><button class="chip on" data-c="all">Tất cả</button><button class="chip" data-c="drink">☕ Cà phê & trà sữa</button><button class="chip" data-c="meal">🍲 Ăn no</button><button class="chip" data-c="snack">🛍️ Ăn vặt & quà</button></div>
@@ -1730,7 +1736,7 @@ function showMap(id){if(curLayer)map.removeLayer(curLayer);
  else{curLayer=layers[id].addTo(map);const d=DAYS.find(x=>x.id===id);const b=L.latLngBounds(d.stops.map(s=>P[s.p].g));map.fitBounds(b,{padding:[40,40],maxZoom:15})}
  $$("#mapChips .chip").forEach(c=>c.classList.toggle("on",c.dataset.id===id))}
 $("#mapChips").innerHTML=`<button class="chip" data-id="all"><i style="background:#0f1b2d"></i>Toàn Thượng Hải</button>`+DAYS.map(d=>`<button class="chip" data-id="${d.id}"><i style="background:${d.color}"></i>${d.tab}${d.city==="hz"?" · Hàng Châu":""}</button>`).join("");
-$("#mapChips").onclick=e=>{const c=e.target.closest(".chip");if(c)showMap(c.dataset.id)};
+$("#mapChips").onclick=e=>{const c=e.target.closest(".chip");if(!c)return;showMap(c.dataset.id);if(/^d\d$/.test(c.dataset.id)&&window.__sync)__sync(c.dataset.id,"map")};
 showMap("all");
 
 /* ===== DAYS ===== */
@@ -1775,7 +1781,8 @@ function renderDay(id){const OPEN=isM()?"":" open";const d=DAYS.find(x=>x.id===i
  const di=DAYINFO[id]||[];
  $("#dinfoH").innerHTML=`<span>📌 ${esc(d.tab)} · điều cần nhớ</span><a href="#" data-go-days>Xem lịch ngày →</a>`;
  $("#dayInfo").innerHTML=di.map(x=>`<div class="kpi${x[3]?" red":""}"><i>${x[0]}</i><div><small>${esc(x[1])}</small><b>${esc(x[2])}</b></div></div>`).join("");
- try{localStorage.setItem("sh_day",id)}catch(e){}}
+ try{localStorage.setItem("sh_day",id)}catch(e){}
+ if(window.__sync)__sync(id,"days")}
 $("#dayTabs").innerHTML=DAYS.map(d=>`<button class="dtab" data-id="${d.id}"><small>${d.id==="d0"?"Đêm đáp":d.id==="d6"?"Bay về":"Ngày "+d.id.slice(1)}${d.city==="hz"?" · Hàng Châu":""}</small><b>${d.tab}</b></button>`).join("");
 $("#dayTabs").onclick=e=>{const t=e.target.closest(".dtab");if(t){renderDay(t.dataset.id);if(isM()){t.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});window.scrollTo({top:0,behavior:"smooth"})}else document.getElementById("days").scrollIntoView({behavior:"smooth"})}};
 document.addEventListener("click",e=>{if(e.target.closest("[data-go-days]")){e.preventDefault();document.getElementById("dayTabs").scrollIntoView({behavior:"smooth"});return}
@@ -1790,7 +1797,8 @@ $("#lineLegend").innerHTML=Object.entries(LINE.sh).map(([k,c])=>`<span style="ba
 $("#phr").innerHTML=PHRASES.map(p=>`<div class="card ph1"><div><div class="zh">${p[0]}</div><small>${p[1]}</small><div class="vi">${p[2]}</div></div><button class="btn sm" data-copytext="${esc(p[0])}">📋</button></div>`).join("");
 
 /* ===== FOOD ===== */
-$("#fgrid").innerHTML=FOOD.map(f=>`<div class="card fd"><div class="fi"><div class="noimg">🍜</div>${f.img?imgTag(f.img,f.n):""}</div><div class="in">
+const fdDay=f=>{const m=/Ngày (\d)/.exec(f.area||"");return m?"d"+m[1]:""};
+$("#fgrid").innerHTML=FOOD.map(f=>`<div class="card fd" data-day="${fdDay(f)}"><div class="fi"><div class="noimg">🍜</div>${f.img?imgTag(f.img,f.n):""}</div><div class="in">
  <div class="area">${esc(f.area)}</div><h4>${esc(f.n)}</h4><div class="zh">${esc(f.zh)}</div><p>${esc(f.dish)}</p><p style="color:var(--mute)">${esc(f.note)}</p><div class="pr">💰 ${esc(f.price)} / người</div>
  <div class="btns"><a class="btn amap sm" target="_blank" rel="noopener" href="https://uri.amap.com/search?keyword=${encodeURIComponent(f.zh.split(" / ")[0])}&city=${CITY[f.city]}&src=huyquynh.trip&callnative=1">Tìm trên Amap</a><button class="btn sm" data-copytext="${esc(f.zh)}">📋 中文</button></div></div></div>`).join("");
 
@@ -1846,10 +1854,32 @@ document.addEventListener("click",e=>{const a=e.target.closest('a[href^="https:/
 /* ===== MOBILE: chế độ app với thanh tab ===== */
 const VIEWS={"lich-trinh":"days","ban-do":"map","an-uong":"food","chuan-bi":"prep","huong-dan":"guide"};
 const VHASH=Object.fromEntries(Object.entries(VIEWS).map(([a,b])=>[b,a]));
+/* ===== SYNC DAY ACROSS VIEWS ===== */
+let mapPend=null,foodDay="";
+function chipCenter(sel){const c=document.querySelector(sel+" .chip.on");if(!c)return;const p=c.parentElement;if(p.scrollWidth>p.clientWidth)p.scrollLeft=c.offsetLeft-p.offsetLeft-(p.clientWidth-c.offsetWidth)/2}
+function mapVisible(){const m=document.getElementById("map");return m&&m.offsetWidth>0}
+function cjk(s){const m=/[\u4e00-\u9fff][\u4e00-\u9fff·（）()A-Za-z0-9]*/.exec(s);return m?m[0]:""}
+function renderFood(id){foodDay=id;$$("#foodChips .chip").forEach(c=>c.classList.toggle("on",c.dataset.id===(id||"all")));
+ $$("#fgrid .fd").forEach(c=>{c.style.display=(!id||c.dataset.day===id)?"":"none"});
+ if(!id){$("#fday").innerHTML="";return}
+ const d=DAYS.find(x=>x.id===id);const city=CITY[d.city];
+ const st=d.stops.filter(s=>s.food&&s.food.length);
+ const n=$$("#fgrid .fd").filter(c=>c.dataset.day===id).length;
+ $("#fday").innerHTML=`<div class="fdbox" style="border-left:5px solid ${d.color}"><h3>🍽️ ${esc(d.date)}</h3><div style="font-size:13px;color:var(--mute)">${esc(d.title)}</div>${st.length?st.map(s=>`<div class="fdst"><b>${esc(s.t)} · ${esc(P[s.p].vn)}</b><ul>${s.food.map(f=>{const z=cjk(f);return `<li><span>${esc(f)}</span>${z?`<a class="btn amap sm" target="_blank" rel="noopener" href="https://uri.amap.com/search?keyword=${encodeURIComponent(z)}&city=${city}&src=huyquynh.trip&callnative=1">Amap</a>`:""}</li>`}).join("")}</ul></div>`).join(""):`<p class="fdnone">Ngày này chủ yếu di chuyển – ăn ở ga / sân bay, xem các chuỗi quốc dân bên dưới.</p>`}${n?`<div style="margin-top:10px;font-size:13px;color:var(--mute)">⬇️ ${n} quán nổi bật cho ngày này</div>`:""}</div>`}
+$("#foodChips").innerHTML=`<button class="chip" data-id="all">Tất cả</button>`+DAYS.map(d=>`<button class="chip" data-id="${d.id}"><i style="background:${d.color}"></i>${d.tab}${d.city==="hz"?" · Hàng Châu":""}</button>`).join("");
+$("#foodChips").onclick=e=>{const c=e.target.closest(".chip");if(!c)return;if(c.dataset.id==="all")renderFood("");else __sync(c.dataset.id,"food")};
+let syncing=false;
+window.__sync=function(id,from){if(syncing)return;syncing=true;try{
+ if(from!=="days")renderDay(id);
+ if(from!=="map"){if(mapVisible())showMap(id);else{mapPend=id;$$("#mapChips .chip").forEach(c=>c.classList.toggle("on",c.dataset.id===id))}}
+ if(from!=="food")renderFood(id);
+}finally{syncing=false}};
 function setView(v,noHash){document.body.dataset.view=v;
  $$("#tabbar button").forEach(b=>b.classList.toggle("on",b.dataset.view===v));
  window.scrollTo(0,0);
- if(v==="map")setTimeout(()=>map.invalidateSize(),50);
+ if(v==="map")setTimeout(()=>{map.invalidateSize();if(mapPend){showMap(mapPend);mapPend=null}chipCenter("#mapChips")},50);
+ if(v==="food")setTimeout(()=>chipCenter("#foodChips"),30);
+ if(v==="days")setTimeout(()=>{const a=document.querySelector(".dtab.on");if(a){const p=a.parentElement;p.scrollLeft=a.offsetLeft-p.offsetLeft-(p.clientWidth-a.offsetWidth)/2}},30);
  if(!noHash){try{history.replaceState(null,"","#"+VHASH[v])}catch(e){}}
  try{localStorage.setItem("sh_view",v)}catch(e){}}
 $("#tabbar").onclick=e=>{const b=e.target.closest("button");if(b)setView(b.dataset.view)};
@@ -1860,6 +1890,7 @@ function applyMode(){const m=isM();document.body.classList.toggle("m",m);const l
 applyMode();matchMedia("(max-width:760px)").addEventListener("change",()=>{applyMode();const t=$(".dtab.on");if(t)renderDay(t.dataset.id)});
 window.addEventListener("hashchange",()=>{if(isM()&&VIEWS[location.hash.slice(1)])setView(VIEWS[location.hash.slice(1)],true)});
 $("#mcd").textContent=(()=>{const d=Math.ceil((new Date("2026-12-22T00:00:00+07:00")-new Date())/864e5);return d>0?"✈️ còn "+d+" ngày":"🎄 đang đi"})();
+try{const id0=(document.querySelector(".dtab.on")||{}).dataset;if(id0&&id0.id)__sync(id0.id,"days")}catch(e){}
 </script>
 <script>if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js").catch(()=>{})}</script>
 </body>
