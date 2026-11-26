@@ -1340,7 +1340,7 @@ const DAYS = [
     { t:"10:30 – 12:45", p:"zhangyuan", img:null, from:"hotel",
       d:"Khu thạch khố môn (石库门) lớn và nguyên vẹn nhất Thượng Hải, xây từ 1882, mới tu sửa thành phố đi bộ có boutique, cà phê, góc tường gạch cổ chụp hình rất đẹp. Vào cửa miễn phí. Ăn trưa quanh khu Tây Nam Kinh.",
       legs:[{m:"walk",t:"~4 phút ra ga Lujiabang Rd"},{m:"metro",r:"8|陆家浜路|人民广场"},{m:"metro",r:"2|人民广场|南京西路"},{m:"walk",t:"~5 phút tới cổng Trương Viên (đường 威海路, ngõ 590)"}],
-      food:["Ăn trưa trong khu Trương Viên hoặc mall Tây Nam Kinh (HKRI Taikoo Hui, Plaza 66)","Luckin / Manner Coffee – cà phê rẻ","Chagee 霸王茶姬 – trà sữa"],
+      food:["Ăn trưa trong khu Trương Viên hoặc mall Tây Nam Kinh (HKRI Taikoo Hui, Plaza 66)","Luckin / Manner Coffee – cà phê rẻ","Chagee 霸王茶姬 – trà sữa","Mixue 蜜雪冰城 – kem ốc quế ~3¥"],
       tips:["Shop thường mở ~10:00–11:00, đi dạo lúc nào cũng được.","Góc chụp đẹp: ngõ chính 威海路590弄, tường gạch đỏ – cửa đá.","Khu phía Đông vẫn đang thi công dần, chủ yếu dạo khu phía Tây."] },
     { t:"13:00 – 15:45", p:"nanjing", img:"nanjing", from:"zhangyuan",
       d:"Thả bộ phố mua sắm sầm uất nhất Thượng Hải từ Quảng trường Nhân Dân ra phía sông (~1,2 km): M&M's World, Pop Mart flagship, bánh truyền thống, trà sữa.",
@@ -1358,7 +1358,7 @@ const DAYS = [
     { t:"19:00 – 20:30", p:"bund", img:"bund", from:"xmas",
       d:"Ra bờ sông ngắm Lujiazui sáng đèn (tới 22:00), qua cầu sắt Ngoại Bạch Độ (外白渡桥) nhìn sông Tô Châu về đêm – miễn phí.",
       legs:[{m:"walk",t:"~5 phút từ chợ Noel ra bờ sông"}],
-      food:["🔥 Li Bai Xie 李百蟹 – mì gạch cua (đúng mùa cua)","Grandma's Home 外婆家 – món Hàng Châu giá mềm","Haidilao gần East Nanjing Rd"], tips:["Ăn tối: ăn vặt luôn ở chợ Noel cho đỡ tốn, hoặc Grandma's Home giá bình dân."] },
+      food:["🔥 Li Bai Xie 李百蟹 – mì gạch cua (đúng mùa cua)","Grandma's Home 外婆家 – món Hàng Châu giá mềm","Haidilao 海底捞 gần East Nanjing Rd – lẩu, mở khuya"], tips:["Ăn tối: ăn vặt luôn ở chợ Noel cho đỡ tốn, hoặc Grandma's Home giá bình dân."] },
     { t:"~20:30", p:"hotel", img:null, from:"bund",
       d:"Về khách sạn bằng metro (1 lần đổi tuyến).",
       legs:[{m:"walk",t:"~8 phút về ga East Nanjing Rd"},{m:"metro",r:"10|南京东路|老西门"},{m:"metro",r:"8|老西门|陆家浜路"},{m:"walk",t:"~4 phút"}] }
@@ -1404,7 +1404,7 @@ const DAYS = [
     { t:"17:45 – 19:15", p:"hefang", img:"hefang", from:"beishan",
       d:"Dạo phố cổ về đêm, ăn vặt, mua trà Long Tỉnh & quà.",
       legs:[{m:"bike",t:"HelloBike từ Cầu Đoạn dọc hồ ~15 phút"},{m:"walk",t:"hoặc đi bộ ~25 phút qua Hubin"}],
-      food:["🔥 Kui Yuan Guan 奎元馆 – mì lươn / mì Pian'er Chuan (gần ga Ding'an Rd)","Bánh hành cuộn 葱包桧","Bánh Định Thắng 定胜糕","Trà Long Tỉnh 龙井茶"], tips:["Đi 1–1.5 tiếng là đủ, canh rời phố trước 19:15."] },
+      food:["🔥 Kui Yuan Guan 奎元馆 – mì lươn / mì Pian'er Chuan (gần ga Ding'an Rd)","Bánh hành cuộn 葱包桧","Bánh Định Thắng 定胜糕","Mixue 蜜雪冰城 – trà chanh/kem siêu rẻ","Trà Long Tỉnh 龙井茶"], tips:["Đi 1–1.5 tiếng là đủ, canh rời phố trước 19:15."] },
     { t:"19:15 – 21:30", p:"hzeast", img:"hzmetro", from:"hefang",
       d:"Về ga Hàng Châu Đông bằng metro (không đổi tuyến), lên tàu ~20:15 về Hồng Kiều, rồi metro về khách sạn.",
       legs:[{m:"walk",t:"~8 phút tới ga Ding'an Road"},{m:"metro",hz:true,r:"1|定安路|火车东站",x:"không đổi tuyến"},{m:"hsr",t:"Tàu G ~20:15 → Hồng Kiều"}],
@@ -1504,6 +1504,8 @@ const FOOD = [
  {n:"Xiao Yang Shengjian", zh:"小杨生煎", area:"Wujiang Rd · Ngày 5", dish:"Bánh bao chiên vỏ giòn nước súp", price:"25–45¥", note:"Cắn lỗ nhỏ, hút súp trước kẻo bỏng.", img:"shengjian", city:"sh"},
  {n:"Coucou Hotpot", zh:"凑凑火锅·茶憩", area:"People's Square · Ngày 5", dish:"Lẩu Đài Loan 2 ngăn + trà sữa Đại Hồng Bào", price:"140–180¥", note:"Lẩu mùa đông cực ấm.", img:"hotpot", city:"sh"},
  {n:"Bánh bướm International Hotel", zh:"国际饭店帆声西饼屋", area:"People's Square · Ngày 5", dish:"Bánh bướm (蝴蝶酥) làm quà", price:"~30–60¥/hộp", note:"Hay xếp hàng – đi sớm buổi tối.", img:"peoplesq", city:"sh"},
+ {n:"Haidilao – lẩu dịch vụ 5 sao", zh:"海底捞火锅", area:"Nanjing East Rd · Ngày 1", dish:"Lẩu 2 ngăn (cà chua + cay), mì kéo múa tại bàn, bò viên tôm", price:"~120–180¥", note:"Đợi bàn được ăn vặt, làm móng miễn phí. Mở tới khuya – hợp bữa tối sau khi dạo Bến Thượng Hải. Tối Ngày 5 cũng có chi nhánh gần People's Square.", img:"hotpot", city:"sh"},
+ {n:"Mixue – kem & trà chanh siêu rẻ", zh:"蜜雪冰城", area:"Phố Nam Kinh · Ngày 1", dish:"Kem ốc quế, chanh tươi đá 冰鲜柠檬水, trà sữa trân châu", price:"~2–10¥", note:"Chuỗi nhiều cửa hàng nhất thế giới, gần như góc phố nào cũng có (cả Hà Phường – Ngày 3). Gọi qua mini-app Alipay đỡ phải nói tiếng Trung.", img:null, city:"sh"},
  {n:"Chagee / Ah Ma Handmade", zh:"霸王茶姬 / 阿嬷手作", area:"Khắp Thượng Hải", dish:"Trà sữa Bá Vương; khoai môn mochi gạo", price:"20–35¥", note:"Ah Ma rất đông – đặt qua WeChat Mini Program trước ~1 tiếng.", img:null, city:"sh"}
 ];
 
